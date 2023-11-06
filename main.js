@@ -2,23 +2,26 @@ import * as THREE from "three";
 
 const canvas = document.querySelector(".webgl");
 const zInput = document.querySelector(".z-input");
+const zValue = document.querySelector(".z-value");
 
 let z = 5;
 
-const handleZCamera = (e) => {
-	z = e.target.value;
+const handleZCamera = (value) => {
+	z = value;
+	zValue.innerHTML = `z: ${z}`;
 	camera.position.setZ(z);
 	renderer.render(scene, camera);
 };
 
 
-zInput.addEventListener("input", handleZCamera);
+zInput.addEventListener("input", e => handleZCamera(e.target.value));
 
 const scene = new THREE.Scene();
 
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: "red" });
 const mesh = new THREE.Mesh(geometry, material);
+mesh.position.set(0.7, -0.6, 1);
 
 scene.add(mesh);
 
@@ -41,4 +44,4 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
-
+handleZCamera(zInput.value);
