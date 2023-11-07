@@ -32,8 +32,11 @@ const sizes = {
 
 const aspectRatio = sizes.width / sizes.height;
 
-const camera = new THREE.PerspectiveCamera(75, aspectRatio);
+const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 100);
 camera.position.setZ(z);
+camera.position.x = 2;
+camera.position.y = 2;
+camera.lookAt(cube.position);
 scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({
@@ -44,10 +47,12 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 handleZCamera(zInput.value);
 
-gsap.to(cube.position, { duration: 1, delay: 2, x: 2 });
-gsap.to(cube.position, { duration: 1, delay: 2.5, x: -2 });
+const clock = new THREE.Clock();
 
 const tick = () => {
+
+
+	cube.rotation.y = clock.getElapsedTime();
 	renderer.render(scene, camera);
 	window.requestAnimationFrame(tick);
 };
