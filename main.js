@@ -21,8 +21,9 @@ const scene = new THREE.Scene();
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: "red" });
 const mesh = new THREE.Mesh(geometry, material);
-mesh.position.set(0.7, -0.6, 1);
 
+mesh.position.set(0.7, -0.6, 1);
+mesh.scale.set(2, 1, 1);
 scene.add(mesh);
 
 const axesHelper = new THREE.AxesHelper(3);
