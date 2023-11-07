@@ -25,6 +25,9 @@ mesh.position.set(0.7, -0.6, 1);
 
 scene.add(mesh);
 
+const axesHelper = new THREE.AxesHelper(3);
+scene.add(axesHelper);
+
 const sizes = {
 	width: window.innerWidth,
 	height: window.innerHeight,
@@ -34,8 +37,6 @@ const aspectRatio = sizes.width / sizes.height;
 
 const camera = new THREE.PerspectiveCamera(75, aspectRatio);
 camera.position.setZ(z);
-camera.position.setY(0);
-camera.position.setX(0);
 scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({
