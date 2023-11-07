@@ -43,18 +43,15 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 handleZCamera(zInput.value);
 
-let time = Date.now();
+const clock = new THREE.Clock();
 
 const tick = () => {
-	const currentTime = Date.now();
-	const deltaTime = currentTime - time;
-	time = currentTime;
+	const elapsedTime = clock.getElapsedTime();
+	console.log(elapsedTime);
 
-	console.log(deltaTime);
-
-	cube.rotation.y += 0.002 * deltaTime;
-	cube.rotation.x += 0.01;
-	cube.rotation.z -= 0.001;
+	camera.position.y = Math.sin(elapsedTime) * Math.PI * 2;
+	camera.position.x = Math.cos(elapsedTime) * Math.PI * 2;
+	camera.lookAt(cube.position);
 	renderer.render(scene, camera);
 
 	window.requestAnimationFrame(tick);
