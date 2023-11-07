@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import gsap from "gsap";
 
 const canvas = document.querySelector(".webgl");
 const zInput = document.querySelector(".z-input");
@@ -43,17 +44,11 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 handleZCamera(zInput.value);
 
-const clock = new THREE.Clock();
+gsap.to(cube.position, { duration: 1, delay: 2, x: 2 });
+gsap.to(cube.position, { duration: 1, delay: 2.5, x: -2 });
 
 const tick = () => {
-	const elapsedTime = clock.getElapsedTime();
-	console.log(elapsedTime);
-
-	camera.position.y = Math.sin(elapsedTime) * Math.PI * 2;
-	camera.position.x = Math.cos(elapsedTime) * Math.PI * 2;
-	camera.lookAt(cube.position);
 	renderer.render(scene, camera);
-
 	window.requestAnimationFrame(tick);
 };
 
