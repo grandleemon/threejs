@@ -18,17 +18,30 @@ zInput.addEventListener("input", e => handleZCamera(e.target.value));
 
 const scene = new THREE.Scene();
 
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: "red" });
-const mesh = new THREE.Mesh(geometry, material);
+const group = new THREE.Group();
+scene.add(group);
 
-mesh.position.set(0.7, -0.6, 1);
-mesh.scale.set(2, 1, 1);
-mesh.rotation.reorder("YXZ");
-mesh.rotation.y = Math.PI * .25;
-mesh.rotation.x = Math.PI * .25;
-mesh.rotation.z = Math.PI * .25;
-scene.add(mesh);
+const cube1 = new THREE.Mesh(
+	new THREE.BoxGeometry(1, 1, 1),
+	new THREE.MeshBasicMaterial({ color: "red" }),
+);
+group.add(cube1);
+
+const cube2 = new THREE.Mesh(
+	new THREE.BoxGeometry(1, 1, 1),
+	new THREE.MeshBasicMaterial({ color: "green" }),
+);
+cube2.position.set(-2, 0, -1);
+group.add(cube2);
+
+const cube3 = new THREE.Mesh(
+	new THREE.BoxGeometry(1, 1, 1),
+	new THREE.MeshBasicMaterial({ color: "blue" }),
+);
+cube3.position.set(2, 0, 1);
+group.add(cube3);
+
+group.rotation.set(2, 1, 1);
 
 const axesHelper = new THREE.AxesHelper(3);
 scene.add(axesHelper);
@@ -43,8 +56,6 @@ const aspectRatio = sizes.width / sizes.height;
 const camera = new THREE.PerspectiveCamera(75, aspectRatio);
 camera.position.setZ(z);
 scene.add(camera);
-
-camera.lookAt(mesh.position);
 
 const renderer = new THREE.WebGLRenderer({
 	canvas,
