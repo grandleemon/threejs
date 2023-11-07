@@ -18,33 +18,11 @@ zInput.addEventListener("input", e => handleZCamera(e.target.value));
 
 const scene = new THREE.Scene();
 
-const group = new THREE.Group();
-scene.add(group);
-
-const cube1 = new THREE.Mesh(
+const cube = new THREE.Mesh(
 	new THREE.BoxGeometry(1, 1, 1),
 	new THREE.MeshBasicMaterial({ color: "red" }),
 );
-group.add(cube1);
-
-const cube2 = new THREE.Mesh(
-	new THREE.BoxGeometry(1, 1, 1),
-	new THREE.MeshBasicMaterial({ color: "green" }),
-);
-cube2.position.set(-2, 0, -1);
-group.add(cube2);
-
-const cube3 = new THREE.Mesh(
-	new THREE.BoxGeometry(1, 1, 1),
-	new THREE.MeshBasicMaterial({ color: "blue" }),
-);
-cube3.position.set(2, 0, 1);
-group.add(cube3);
-
-group.rotation.set(2, 1, 1);
-
-const axesHelper = new THREE.AxesHelper(3);
-scene.add(axesHelper);
+scene.add(cube);
 
 const sizes = {
 	width: window.innerWidth,
@@ -64,3 +42,22 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 handleZCamera(zInput.value);
+
+let time = Date.now();
+
+const tick = () => {
+	const currentTime = Date.now();
+	const deltaTime = currentTime - time;
+	time = currentTime;
+
+	console.log(deltaTime);
+
+	cube.rotation.y += 0.002 * deltaTime;
+	cube.rotation.x += 0.01;
+	cube.rotation.z -= 0.001;
+	renderer.render(scene, camera);
+
+	window.requestAnimationFrame(tick);
+};
+
+tick();
