@@ -24,6 +24,10 @@ const mesh = new THREE.Mesh(geometry, material);
 
 mesh.position.set(0.7, -0.6, 1);
 mesh.scale.set(2, 1, 1);
+mesh.rotation.reorder("YXZ");
+mesh.rotation.y = Math.PI * .25;
+mesh.rotation.x = Math.PI * .25;
+mesh.rotation.z = Math.PI * .25;
 scene.add(mesh);
 
 const axesHelper = new THREE.AxesHelper(3);
@@ -39,6 +43,8 @@ const aspectRatio = sizes.width / sizes.height;
 const camera = new THREE.PerspectiveCamera(75, aspectRatio);
 camera.position.setZ(z);
 scene.add(camera);
+
+camera.lookAt(mesh.position);
 
 const renderer = new THREE.WebGLRenderer({
 	canvas,
