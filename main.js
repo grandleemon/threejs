@@ -14,7 +14,7 @@ const cursor = {
 
 const handleZCamera = (value) => {
 	z = value;
-	zValue.innerHTML = `z: ${z}`;
+	zValue.innerHTML = `zoom: ${z}`;
 	camera.position.setZ(z);
 	renderer.render(scene, camera);
 };
@@ -49,6 +49,8 @@ scene.add(camera);
 
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+controls.minDistance = zInput.min;
+controls.maxDistance = zInput.max;
 
 const renderer = new THREE.WebGLRenderer({
 	canvas,
@@ -59,6 +61,11 @@ renderer.render(scene, camera);
 handleZCamera(zInput.value);
 
 const clock = new THREE.Clock();
+
+window.addEventListener("wheel", e => {
+	zInput.value = controls.getDistance();
+	zValue.innerHTML = `zoom: ${controls.getDistance()}`;
+});
 
 const tick = () => {
 	controls.update();
