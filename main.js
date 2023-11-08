@@ -2,29 +2,37 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 const canvas = document.querySelector(".webgl");
-const zInput = document.querySelector(".z-input");
 const zValue = document.querySelector(".z-value");
 
 let z = 5;
+
+const sizes = {
+	width: window.innerWidth,
+	height: window.innerHeight,
+};
+
+let aspectRatio = sizes.width / sizes.height;
 
 const cursor = {
 	x: 0,
 	y: 0,
 };
 
-const handleZCamera = (value) => {
-	z = value;
-	zValue.innerHTML = `zoom: ${z}`;
-	camera.position.setZ(z);
-	renderer.render(scene, camera);
-};
-
-
-zInput.addEventListener("input", e => handleZCamera(e.target.value));
-
 window.addEventListener("mousemove", e => {
 	cursor.x = e.clientX / window.innerWidth - 0.5;
 	cursor.y = -(e.clientY / window.innerHeight - 0.5);
+});
+
+window.addEventListener("resize", e => {
+	sizes.width = e.target.innerWidth;
+	sizes.height = e.target.innerHeight;
+
+	aspectRatio = sizes.width / sizes.height;
+	camera.aspect = aspectRatio;
+	camera.updateProjectionMatrix();
+	
+	renderer.setSize(sizes.width, sizes.height);
+	renderer.render(scene, camera);
 });
 
 const scene = new THREE.Scene();
@@ -35,13 +43,6 @@ const cube = new THREE.Mesh(
 );
 scene.add(cube);
 
-const sizes = {
-	width: window.innerWidth,
-	height: window.innerHeight,
-};
-
-const aspectRatio = sizes.width / sizes.height;
-
 const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 100);
 camera.position.setZ(z);
 camera.lookAt(cube.position);
@@ -49,22 +50,21 @@ scene.add(camera);
 
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
-controls.minDistance = zInput.min;
-controls.maxDistance = zInput.max;
+controls.minDistance = 2;
+controls.maxDistance = 60;
 
 const renderer = new THREE.WebGLRenderer({
 	canvas,
 });
 
+zValue.innerHTML = `zoom: ${z}`;
+
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
-handleZCamera(zInput.value);
-
-const clock = new THREE.Clock();
 
 window.addEventListener("wheel", e => {
-	zInput.value = controls.getDistance();
-	zValue.innerHTML = `zoom: ${controls.getDistance()}`;
+	z = controls.getDistance();
+	zValue.innerHTML = `zoom: ${z}`;
 });
 
 const tick = () => {
