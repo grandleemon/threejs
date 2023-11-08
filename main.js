@@ -30,9 +30,9 @@ window.addEventListener("resize", e => {
 	aspectRatio = sizes.width / sizes.height;
 	camera.aspect = aspectRatio;
 	camera.updateProjectionMatrix();
-	
+
 	renderer.setSize(sizes.width, sizes.height);
-	renderer.render(scene, camera);
+	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
 const scene = new THREE.Scene();
@@ -60,7 +60,7 @@ const renderer = new THREE.WebGLRenderer({
 zValue.innerHTML = `zoom: ${z}`;
 
 renderer.setSize(sizes.width, sizes.height);
-renderer.render(scene, camera);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 window.addEventListener("wheel", e => {
 	z = controls.getDistance();
