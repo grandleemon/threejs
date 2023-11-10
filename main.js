@@ -56,8 +56,8 @@ window.addEventListener("dblclick", () => {
 const scene = new THREE.Scene();
 
 const cube = new THREE.Mesh(
-	new THREE.BoxGeometry(1, 1, 1),
-	new THREE.MeshBasicMaterial({ color: "red" }),
+	new THREE.BoxGeometry(1, 1, 1, 10, 10, 10),
+	new THREE.MeshBasicMaterial({ color: "red", wireframe: true }),
 );
 scene.add(cube);
 
