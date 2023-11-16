@@ -1,10 +1,14 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
+import gsap from "gsap";
 
 const gui = new GUI();
 const debugObject = {
 	color: "#425466",
+	spin: () => {
+		gsap.to(cube.rotation, { duration: 1, y: cube.rotation.y + Math.PI * 2 });
+	},
 };
 
 const canvas = document.querySelector(".webgl");
@@ -71,6 +75,7 @@ gui.add(cube.position, "y").min(-3).max(3).step(.0001).name("elevation");
 gui.add(cube, "visible");
 gui.add(cube.material, "wireframe");
 gui.addColor(debugObject, "color").onChange(() => cube.material.color.set(debugObject.color));
+gui.add(debugObject, "spin");
 
 const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 100);
 camera.position.setZ(z);
