@@ -65,6 +65,8 @@ const cube = new THREE.Mesh(
 scene.add(cube);
 
 gui.add(cube.position, "y").min(-3).max(3).step(.0001).name("elevation");
+gui.add(cube, "visible");
+gui.add(cube.material, "wireframe");
 
 const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 100);
 camera.position.setZ(z);
