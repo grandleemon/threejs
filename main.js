@@ -9,6 +9,7 @@ const debugObject = {
 	spin: () => {
 		gsap.to(cube.rotation, { duration: 1, y: cube.rotation.y + Math.PI * 2 });
 	},
+	subdivision: 2,
 };
 
 const canvas = document.querySelector(".webgl");
@@ -66,12 +67,16 @@ window.addEventListener("dblclick", () => {
 const scene = new THREE.Scene();
 
 const cube = new THREE.Mesh(
-	new THREE.BoxGeometry(1, 1, 1),
-	new THREE.MeshBasicMaterial({ color: debugObject.color }),
+	new THREE.BoxGeometry(1, 1, 1, debugObject.subdivision, debugObject.subdivision, debugObject.subdivision),
+	new THREE.MeshBasicMaterial({ color: debugObject.color, wireframe: true }),
 );
 scene.add(cube);
 
 gui.add(cube.position, "y").min(-3).max(3).step(.0001).name("elevation");
+gui.add(debugObject, "subdivision").min(1).max(15).step(1).name("subdivision").onFinishChange(() => {
+	cube.geometry.dispose();
+	cube.geometry = new THREE.BoxGeometry(1, 1, 1, debugObject.subdivision, debugObject.subdivision, debugObject.subdivision);
+});
 gui.add(cube, "visible");
 gui.add(cube.material, "wireframe");
 gui.addColor(debugObject, "color").onChange(() => cube.material.color.set(debugObject.color));
