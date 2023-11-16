@@ -1,5 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import GUI from "lil-gui";
+
+const gui = new GUI();
 
 const canvas = document.querySelector(".webgl");
 const zValue = document.querySelector(".z-value");
@@ -53,23 +56,15 @@ window.addEventListener("dblclick", () => {
 	}
 });
 
-const count = 600;
-
-const positionsArray = new Float32Array(count * 3 * 3);
-
-for (let i = 0; i < count * 3 * 3; i++) {
-	positionsArray[i] = (Math.random() - 0.5) * 4;
-}
-
-const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
-
 const scene = new THREE.Scene();
 
 const cube = new THREE.Mesh(
-	new THREE.BufferGeometry().setAttribute("position", positionsAttribute),
-	new THREE.MeshBasicMaterial({ color: "red", wireframe: true }),
+	new THREE.BoxGeometry(1, 1, 1),
+	new THREE.MeshBasicMaterial({ color: "red" }),
 );
 scene.add(cube);
+
+gui.add(cube.position, "y").min(-3).max(3).step(.0001).name("elevation");
 
 const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 100);
 camera.position.setZ(z);
