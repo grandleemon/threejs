@@ -72,15 +72,19 @@ const cube = new THREE.Mesh(
 );
 scene.add(cube);
 
-gui.add(cube.position, "y").min(-3).max(3).step(.0001).name("elevation");
-gui.add(debugObject, "subdivision").min(1).max(15).step(1).name("subdivision").onFinishChange(() => {
+const cubeTweaks = gui.addFolder("Cube");
+gui.close();
+cubeTweaks.close();
+
+cubeTweaks.add(cube.position, "y").min(-3).max(3).step(.0001).name("elevation");
+cubeTweaks.add(debugObject, "subdivision").min(1).max(15).step(1).name("subdivision").onFinishChange(() => {
 	cube.geometry.dispose();
 	cube.geometry = new THREE.BoxGeometry(1, 1, 1, debugObject.subdivision, debugObject.subdivision, debugObject.subdivision);
 });
-gui.add(cube, "visible");
-gui.add(cube.material, "wireframe");
-gui.addColor(debugObject, "color").onChange(() => cube.material.color.set(debugObject.color));
-gui.add(debugObject, "spin");
+cubeTweaks.add(cube, "visible");
+cubeTweaks.add(cube.material, "wireframe");
+cubeTweaks.addColor(debugObject, "color").onChange(() => cube.material.color.set(debugObject.color));
+cubeTweaks.add(debugObject, "spin");
 
 const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 100);
 camera.position.setZ(z);
