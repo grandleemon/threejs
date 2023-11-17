@@ -3,7 +3,12 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import gsap from "gsap";
 
-const gui = new GUI();
+const gui = new GUI({
+	title: "Debug UI",
+	closeFolders: true,
+});
+gui.close();
+
 const debugObject = {
 	color: "#425466",
 	spin: () => {
@@ -73,8 +78,6 @@ const cube = new THREE.Mesh(
 scene.add(cube);
 
 const cubeTweaks = gui.addFolder("Cube");
-gui.close();
-cubeTweaks.close();
 
 cubeTweaks.add(cube.position, "y").min(-3).max(3).step(.0001).name("elevation");
 cubeTweaks.add(debugObject, "subdivision").min(1).max(15).step(1).name("subdivision").onFinishChange(() => {
